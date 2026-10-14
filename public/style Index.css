@@ -1,0 +1,205 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Roboto:wght@400;500;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --fundo: #050805;
+    --card: #0b190b;
+    --verde: #00ff41;
+    --verde-claro: #7cff7c;
+    --branco: #f1f5f9;
+    --cinza: #a8b3a8;
+}
+
+body {
+    min-height: 100vh;
+    background: radial-gradient(circle at center, #0c260c, #020402 75%);
+    color: var(--branco);
+    font-family: "Roboto", sans-serif;
+    overflow-x: hidden;
+}
+
+.menu {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    padding: 18px 20px;
+    background: rgba(2, 8, 2, 0.96);
+    border-bottom: 2px solid var(--verde);
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+    text-align: center;
+}
+
+.link {
+    display: inline-block;
+    color: var(--branco);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 8px 16px;
+    margin: 0 4px;
+    transition: 0.3s;
+}
+
+.link:hover {
+    color: var(--verde);
+    text-shadow: 0 0 10px var(--verde);
+}
+
+.personagem-cinco {
+    position: relative;
+    min-height: calc(100vh - 75px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 70px;
+    overflow: hidden;
+}
+
+.esquerdo {
+    width: 32%;
+    max-width: 400px;
+    z-index: 2;
+}
+
+.titulo {
+    font-family: "Bangers", cursive;
+    font-size: 6rem;
+    letter-spacing: 5px;
+    color: var(--verde);
+    text-shadow:
+        0 0 10px var(--verde),
+        0 0 25px rgba(0, 255, 65, 0.5);
+    margin-bottom: 15px;
+}
+
+.subtitulo {
+    color: var(--branco);
+    font-size: 1.15rem;
+    line-height: 1.7;
+}
+
+.Tristeza-front {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    height: 82%;
+    max-height: 680px;
+    max-width: 45%;
+    object-fit: contain;
+    z-index: 1;
+    filter: drop-shadow(0 0 20px rgba(0, 255, 65, 0.5));
+}
+
+.direito {
+    width: 50%;
+    max-width: 400px;
+    z-index: 2;
+    text-align: center;
+}
+
+.balao {
+    width: 100%;
+    padding: 22px;
+    margin-bottom: 25px;
+    background: rgba(11, 25, 11, 0.95);
+    border: 2px solid var(--verde);
+    border-radius: 15px;
+    color: var(--branco);
+    font-size: 1rem;
+    line-height: 1.5;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+}
+
+.balao::before {
+    content: "OMNITRIX SYSTEM";
+    display: block;
+    margin-bottom: 12px;
+    color: var(--verde);
+    font-size: 0.7rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.botão {
+    display: inline-block;
+    width: 100%;
+    padding: 14px 25px;
+    background: var(--verde);
+    color: #031003;
+    border: 2px solid var(--verde-claro);
+    border-radius: 8px;
+    text-decoration: none;
+    font-family: "Bangers", cursive;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    box-shadow: 0 0 18px rgba(0, 255, 65, 0.4);
+    transition: 0.3s;
+}
+
+.botão:hover {
+    background: var(--verde-claro);
+    box-shadow: 0 0 30px var(--verde);
+    transform: translateY(-3px);
+}
+
+@media (max-width: 900px) {
+    .personagem-cinco {
+        flex-direction: column;
+        justify-content: flex-start;
+        text-align: center;
+        padding: 50px 25px;
+    }
+
+    .esquerdo,
+    .direito {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .titulo {
+        font-size: 4.5rem;
+    }
+
+    .Tristeza-front {
+        position: relative;
+        left: auto;
+        bottom: auto;
+        transform: none;
+        height: auto;
+        width: 70%;
+        max-width: 400px;
+        margin: 20px auto;
+    }
+
+    .direito {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 500px) {
+    .link {
+        font-size: 0.85rem;
+        padding: 7px 8px;
+    }
+
+    .titulo {
+        font-size: 3.5rem;
+    }
+
+    .subtitulo {
+        font-size: 1rem;
+    }
+
+    .Tristeza-front {
+        width: 85%;
+    }
+}

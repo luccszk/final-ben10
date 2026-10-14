@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro | Omnitrix</title>
+    <link rel="stylesheet" href="style cadastro.css">
+</head>
+
+<body>
+
+    <nav class="menu">
+        <div class="logo">OMNITRIX</div>
+
+        <div class="links">
+            <a href="index.html" class="link">Home</a>
+            <a href="galeria.html" class="link">Galeria</a>
+            <a href="chat.html" class="link">Chat</a>
+            <a href="cadastro.html" class="link">Cadastro</a>
+            <a href="login.html" class="link">Login</a>
+        </div>
+    </nav>
+
+    <main>
+
+        <div class="titulo-area">
+            <span class="status">● SISTEMA ONLINE</span>
+            <h1>CADASTRO</h1>
+            <p>Crie seu acesso ao sistema Omnitrix</p>
+        </div>
+
+        <div class="container">
+
+            <div class="omnitrix-icon">
+                <div class="omnitrix-inner"></div>
+            </div>
+
+            <h2>NOVO USUÁRIO</h2>
+
+            <div class="linha"></div>
+
+            <div class="campo-grupo">
+                <label for="usuario">NOME DO USUÁRIO</label>
+                <input type="text" id="usuario" placeholder="Digite seu nome">
+            </div>
+
+            <div class="campo-grupo">
+                <label for="email">E-MAIL</label>
+                <input type="email" id="email" placeholder="Digite seu e-mail">
+            </div>
+
+            <div class="campo-grupo">
+                <label for="senha">SENHA</label>
+                <input type="password" id="senha" placeholder="Mínimo de 6 caracteres">
+            </div>
+
+            <button id="btnCadastro">ATIVAR CADASTRO</button>
+
+            <div id="cadMensagem" class="mensagem"></div>
+            <div id="cadAlerta" class="alerta"></div>
+
+        </div>
+
+    </main>
+
+    <footer>
+        OMNITRIX SYSTEM © 2026 | Desenvolvido por Lucca Scholz
+    </footer>
+
+    <script>
+        const btnCadastro = document.querySelector('#btnCadastro');
+        const cadMensagem = document.querySelector('#cadMensagem');
+        const cadAlerta = document.querySelector('#cadAlerta');
+
+        btnCadastro.addEventListener('click', async () => {
+            const usuarioEntrada = document.querySelector('#usuario');
+            const emailEntrada = document.querySelector('#email');
+            const senhaEntrada = document.querySelector('#senha');
+
+            const usuarioDigitado = usuarioEntrada.value.trim();
+            const emailDigitado = emailEntrada.value.trim();
+            const senhaDigitada = senhaEntrada.value;
+
+            cadAlerta.innerText = '';
+
+            if (!usuarioDigitado || !emailDigitado || !senhaDigitada) {
+                cadMensagem.innerText = 'Preencha todos os campos antes de enviar!';
+                cadMensagem.style.color = '#ff3b3b';
+                return;
+            }
+
+            if (senhaDigitada.length < 6) {
+                cadMensagem.innerText = 'A senha deve ter pelo menos 6 caracteres!';
+                cadMensagem.style.color = '#ff3b3b';
+                return;
+            }
+
+            cadMensagem.innerText = 'Aguarde, cadastrando no servidor...';
+            cadMensagem.style.color = '#7CFF7C';
+
+            try {
+                const respostaBe = await fetch('http://localhost:3000/cadastro', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        usuario: usuarioDigitado,
+                        email: emailDigitado,
+                        senha: senhaDigitada
+                    })
+                });
+
+                const dados = await respostaBe.json();
+
+                if (!respostaBe.ok) {
+                    cadMensagem.innerText = `${dados.erro}`;
+                    cadMensagem.style.color = '#ff3b3b';
+                    return;
+                }
+
+                cadMensagem.innerText = `${dados.mensagem}: ${dados.perfil}`;
+                cadMensagem.style.color = '#7CFF7C';
+
+                usuarioEntrada.value = '';
+                emailEntrada.value = '';
+                senhaEntrada.value = '';
+
+            } catch (erro) {
+                console.error('Erro na requisição:', erro);
+                cadMensagem.innerText = 'Erro ao conectar com o servidor!';
+                cadMensagem.style.color = '#ff3b3b';
+            }
+        });
+    </script>
+
+</body>
+
+</html>
+```

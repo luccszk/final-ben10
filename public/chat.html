@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omnitrix Chat</title>
+    <link rel="stylesheet" href="style chat.css">
+</head>
+
+<body>
+
+    <nav class="menu">
+        <a class="link" href="index.html">Início</a>
+        <a class="link" href="galeria.html">Aliens</a>
+        <a class="link" href="chat.html">Omnitrix</a>
+        <a class="link" href="login.html">Login</a>
+        <a class="link" href="cadastro.html">Cadastro</a>
+    </nav>
+
+    <div class="chatContainer">
+
+        <h2 id="boasVindas">Bem-vindo ao Omnitrix</h2>
+
+        <div id="caixaChat"></div>
+
+        <div id="inputArea">
+            <input type="text" id="mensagem" placeholder="Fale com o Omnitrix...">
+            <button id="btnEnviar">Ativar</button>
+        </div>
+
+    </div>
+
+    <script>
+        const usuarioLogado = 'Lucca';
+
+        document.querySelector('#boasVindas').textContent =
+            `Olá ${usuarioLogado}, o Omnitrix está pronto!`;
+
+        const caixaChat = document.querySelector('#caixaChat');
+        const inputMensagem = document.querySelector('#mensagem');
+        const btnEnviar = document.querySelector('#btnEnviar');
+
+        const historicoConversa = [];
+
+        function mensagemTela(autor, texto) {
+            const textoFinal = document.createElement('p');
+
+            textoFinal.className = 'msg';
+
+            textoFinal.textContent = `${autor}: ${texto}`;
+
+            caixaChat.appendChild(textoFinal);
+
+            caixaChat.scrollTop = caixaChat.scrollHeight;
+        }
+
+        btnEnviar.addEventListener('click', async () => {
+
+            const textoMensagem = inputMensagem.value.trim();
+
+            if (!textoMensagem) return;
+
+            mensagemTela(usuarioLogado, textoMensagem);
+
+            historicoConversa.push({
+                role: "user",
+                content: textoMensagem
+            });
+
+            inputMensagem.value = '';
+
+            btnEnviar.disabled = true;
+
+            try {
+
+                const respostaServidor = await fetch('/chat', {
+                    method: 'POST',
+
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+
+                    body: JSON.stringify({
+                        historico: historicoConversa
+                    })
+                });
+
+                const dados = await respostaServidor.json();
+
+                if (!respostaServidor.ok) {
+
+                    mensagemTela('Omnitrix', dados.erro);
+
+                    return;
+                }
+
+                mensagemTela('Omnitrix', dados.resposta);
+
+            } catch (erro) {
+
+                mensagemTela(
+                    'Sistema',
+                    'Não foi possível conectar com o Omnitrix.'
+                );
+
+            } finally {
+
+                btnEnviar.disabled = false;
+            }
+        });
+    </script>
+
+</body>
+</html>

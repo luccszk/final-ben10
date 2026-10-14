@@ -1,0 +1,267 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+    --preto: #050805;
+    --verde-escuro: #071507;
+    --verde: #00ff41;
+    --verde-claro: #7cff7c;
+    --brilho: #91ff16;
+    --branco: #f1f5f9;
+    --cinza: #a8b3a8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: radial-gradient(circle at 50% 35%, rgba(0, 255, 65, 0.12), transparent 35%), linear-gradient(135deg, #020402, #081408, #020502);
+    color: var(--branco);
+    font-family: "Roboto", sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    min-height: 80px;
+    padding: 15px 30px;
+    background: rgba(3, 10, 3, 0.95);
+    border-bottom: 2px solid var(--verde);
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    font-family: "Bangers", cursive;
+    font-size: 2.2rem;
+    letter-spacing: 3px;
+    color: var(--verde);
+    text-shadow: 0 0 8px var(--verde), 0 0 20px var(--verde);
+}
+
+.links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.link {
+    color: var(--cinza);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 10px 13px;
+    transition: 0.3s;
+}
+
+.link:hover {
+    color: var(--verde);
+    text-shadow: 0 0 8px var(--verde);
+}
+
+main {
+    flex: 1;
+    width: 100%;
+    padding: 45px 20px 60px;
+}
+
+.titulo-area {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.status {
+    display: inline-block;
+    color: var(--verde);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 8px var(--verde);
+}
+
+.titulo-area h1 {
+    font-family: "Bangers", cursive;
+    font-size: 4rem;
+    letter-spacing: 5px;
+    color: var(--verde-claro);
+    text-shadow: 0 0 10px var(--verde), 0 0 25px var(--verde);
+}
+
+.titulo-area p {
+    color: var(--cinza);
+    margin-top: 5px;
+    font-size: 0.95rem;
+}
+
+.container {
+    position: relative;
+    max-width: 550px;
+    width: 100%;
+    margin: auto;
+    padding: 40px;
+    background: linear-gradient(145deg, rgba(12, 35, 12, 0.97), rgba(3, 13, 3, 0.98));
+    border: 1px solid rgba(0, 255, 65, 0.6);
+    border-radius: 18px;
+    box-shadow: 0 0 30px rgba(0, 255, 65, 0.15);
+}
+
+.container::before {
+    content: "OMNITRIX SYSTEM // USER REGISTRATION";
+    display: block;
+    color: rgba(124, 255, 124, 0.5);
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.omnitrix-icon {
+    width: 75px;
+    height: 75px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: #050505;
+    border: 5px solid var(--verde);
+    box-shadow: 0 0 10px var(--verde), 0 0 25px rgba(0, 255, 65, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.omnitrix-inner {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: var(--verde);
+    box-shadow: 0 0 10px var(--verde), 0 0 25px var(--verde);
+}
+
+.container h2 {
+    text-align: center;
+    font-family: "Bangers", cursive;
+    font-size: 2rem;
+    letter-spacing: 3px;
+    color: var(--verde-claro);
+}
+
+.linha {
+    width: 80px;
+    height: 2px;
+    margin: 15px auto 25px;
+    background: var(--verde);
+    box-shadow: 0 0 10px var(--verde);
+}
+
+.campo-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.campo-grupo label {
+    color: var(--verde-claro);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.container input {
+    width: 100%;
+    padding: 15px 16px;
+    background: rgba(0, 0, 0, 0.5);
+    color: var(--branco);
+    border: 1px solid #315331;
+    border-radius: 8px;
+    outline: none;
+    font-size: 0.95rem;
+    transition: 0.3s;
+}
+
+.container input::placeholder {
+    color: #607060;
+}
+
+.container input:focus {
+    border-color: var(--verde);
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
+}
+
+#btnCadastro {
+    width: 100%;
+    padding: 15px;
+    margin-top: 5px;
+    background: var(--verde);
+    color: #031003;
+    border: 2px solid var(--verde-claro);
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: "Bangers", cursive;
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+    transition: 0.3s;
+}
+
+#btnCadastro:hover {
+    background: var(--verde-claro);
+    box-shadow: 0 0 15px var(--verde), 0 0 30px rgba(0, 255, 65, 0.4);
+    transform: translateY(-2px);
+}
+
+#btnCadastro:active {
+    transform: scale(0.98);
+}
+
+.mensagem {
+    min-height: 25px;
+    margin-top: 15px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.alerta {
+    min-height: 5px;
+}
+
+footer {
+    padding: 20px;
+    text-align: center;
+    color: #526052;
+    font-size: 0.8rem;
+    border-top: 1px solid rgba(0, 255, 65, 0.15);
+}
+
+@media (max-width: 750px) {
+    .menu {
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .link {
+        font-size: 0.8rem;
+        padding: 6px 8px;
+    }
+
+    .titulo-area h1 {
+        font-size: 3rem;
+    }
+
+    .container {
+        padding: 30px 22px;
+    }
+}
