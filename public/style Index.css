@@ -74,9 +74,7 @@ body {
     font-size: 6rem;
     letter-spacing: 5px;
     color: var(--verde);
-    text-shadow:
-        0 0 10px var(--verde),
-        0 0 25px rgba(0, 255, 65, 0.5);
+    text-shadow: 0 0 10px var(--verde), 0 0 25px rgba(0, 255, 65, 0.5);
     margin-bottom: 15px;
 }
 
@@ -155,8 +153,10 @@ body {
     .personagem-cinco {
         flex-direction: column;
         justify-content: flex-start;
+        align-items: center;
         text-align: center;
-        padding: 50px 25px;
+        padding: 40px 25px;
+        gap: 20px;
     }
 
     .esquerdo,
@@ -177,29 +177,75 @@ body {
         height: auto;
         width: 70%;
         max-width: 400px;
-        margin: 20px auto;
+        max-height: 450px;
+        margin: 10px auto;
     }
 
     .direito {
-        margin-top: 20px;
+        margin-top: 10px;
     }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 768px) {
+    .menu {
+        padding: 12px 8px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
     .link {
-        font-size: 0.85rem;
-        padding: 7px 8px;
+        font-size: 0.9rem;
+        padding: 9px 10px;
+        margin: 0;
+    }
+
+    .personagem-cinco {
+        min-height: auto;
+        padding: 35px 18px;
     }
 
     .titulo {
-        font-size: 3.5rem;
+        font-size: clamp(3rem, 12vw, 4.5rem);
+        letter-spacing: 3px;
     }
 
     .subtitulo {
         font-size: 1rem;
+        line-height: 1.6;
     }
 
     .Tristeza-front {
-        width: 85%;
+        width: 75%;
+        max-width: 350px;
+    }
+
+    .balao {
+        padding: 18px;
+        font-size: 0.95rem;
+    }
+
+    .botão {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .link {
+        font-size: 0.8rem;
+        padding: 8px 7px;
+    }
+
+    .titulo {
+        font-size: 2.8rem;
+    }
+
+    .Tristeza-front {
+        width: 90%;
+    }
+
+    .personagem-cinco {
+        padding: 25px 14px;
     }
 }
