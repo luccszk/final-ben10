@@ -1,7 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="pt-BR">
-
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,83 +12,68 @@
 
     <nav class="menu">
         <a class="link" href="index.html">Início</a>
-        <a class="link" href="galeria.html">Galeria</a>
-        <a class="link" href="chat.html">Chat</a>
-        <a class="link" href="cadastro.html">Cadastro</a>
+        <a class="link" href="galeria.html">Aliens</a>
+        <a class="link" href="chat.html">Omnitrix</a>
         <a class="link" href="login.html">Login</a>
+        <a class="link" href="cadastro.html">Cadastro</a>
     </nav>
 
-    <main class="chatContainer">
-        <h1>OMNITRIX CHAT</h1>
+    <div class="chatContainer">
 
-        <div id="boasVindas"></div>
+        <h2 id="boasVindas">Bem-vindo ao Omnitrix</h2>
 
         <div id="caixaChat"></div>
 
         <div id="inputArea">
-            <input
-                type="text"
-                id="mensagem"
-                placeholder="Fale com o Omnitrix..."
-                autocomplete="off"
-            >
-            <button id="btnEnviar">Enviar</button>
+            <input type="text" id="mensagem" placeholder="Fale com o Omnitrix...">
+            <button id="btnEnviar">Ativar</button>
         </div>
-    </main>
+
+    </div>
 
     <footer>© Desenvolvido por Lucca Scholz</footer>
 
     <script>
-        const usuarioLogado = sessionStorage.getItem('usuarioLogado')
+        const usuarioLogado = sessionStorage.getItem('usuarioLogado');
 
         if (!usuarioLogado) {
-            window.location.href = 'login.html'
+            window.location.href = 'login.html';
         }
 
-        const boasVindas = document.querySelector('#boasVindas')
-        const caixaChat = document.querySelector('#caixaChat')
-        const mensagem = document.querySelector('#mensagem')
-        const btnEnviar = document.querySelector('#btnEnviar')
+        document.querySelector('#boasVindas').textContent =
+            `Olá ${usuarioLogado}, o Omnitrix está pronto!`;
 
-        let historicoConversa = []
+        const caixaChat = document.querySelector('#caixaChat');
+        const inputMensagem = document.querySelector('#mensagem');
+        const btnEnviar = document.querySelector('#btnEnviar');
 
-        boasVindas.innerText = `Bem-vindo, ${usuarioLogado}! Converse com o Omnitrix.`
+        const historicoConversa = [];
 
-        function adicionarMensagem(remetente, texto) {
-            const div = document.createElement('div')
-            div.classList.add('mensagem-chat')
-            div.classList.add(remetente === 'Você' ? 'mensagem-usuario' : 'mensagem-omnitrix')
-
-            const nome = document.createElement('strong')
-            nome.innerText = remetente
-
-            const conteudo = document.createElement('p')
-            conteudo.innerText = texto
-
-            div.appendChild(nome)
-            div.appendChild(conteudo)
-            caixaChat.appendChild(div)
-
-            caixaChat.scrollTop = caixaChat.scrollHeight
+        function mensagemTela(autor, texto) {
+            const textoFinal = document.createElement('p');
+            textoFinal.className = 'msg';
+            textoFinal.textContent = `${autor}: ${texto}`;
+            caixaChat.appendChild(textoFinal);
+            caixaChat.scrollTop = caixaChat.scrollHeight;
         }
 
         async function enviarMensagem() {
-            const texto = mensagem.value.trim()
+            const textoMensagem = inputMensagem.value.trim();
 
-            if (!texto) return
+            if (!textoMensagem || btnEnviar.disabled) return;
 
-            mensagem.value = ''
-            adicionarMensagem('Você', texto)
+            mensagemTela(usuarioLogado, textoMensagem);
 
             historicoConversa.push({
-                role: 'user',
-                content: texto
-            })
+                role: "user",
+                content: textoMensagem
+            });
 
-            btnEnviar.disabled = true
+            inputMensagem.value = '';
+            btnEnviar.disabled = true;
 
             try {
-                const resposta = await fetch('/chat', {
+                const respostaServidor = await fetch('/chat', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -98,37 +82,40 @@
                         historico: historicoConversa,
                         usuario: usuarioLogado
                     })
-                })
+                });
 
-                const dados = await resposta.json()
+                const dados = await respostaServidor.json();
 
-                if (!resposta.ok) {
-                    throw new Error(dados.erro || 'Erro ao conversar com o Omnitrix')
+                if (!respostaServidor.ok) {
+                    mensagemTela('Omnitrix', dados.erro || 'Erro ao consultar o Omnitrix.');
+                    historicoConversa.pop();
+                    return;
                 }
 
-                adicionarMensagem('Omnitrix', dados.resposta)
+                mensagemTela('Omnitrix', dados.resposta);
 
                 historicoConversa.push({
-                    role: 'assistant',
+                    role: "assistant",
                     content: dados.resposta
-                })
+                });
 
             } catch (erro) {
-                console.error(erro)
-                adicionarMensagem('Omnitrix', erro.message)
-            }
+                mensagemTela('Sistema', 'Não foi possível conectar com o Omnitrix.');
+                historicoConversa.pop();
 
-            btnEnviar.disabled = false
-            mensagem.focus()
+            } finally {
+                btnEnviar.disabled = false;
+                inputMensagem.focus();
+            }
         }
 
-        btnEnviar.addEventListener('click', enviarMensagem)
+        btnEnviar.addEventListener('click', enviarMensagem);
 
-        mensagem.addEventListener('keydown', (evento) => {
-            if (evento.key === 'Enter') {
-                enviarMensagem()
+        inputMensagem.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                enviarMensagem();
             }
-        })
+        });
     </script>
 
 </body>
