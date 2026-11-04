@@ -67,7 +67,7 @@
             }
 
             try {
-                const respostaBe = await fetch('http://localhost:3000/login', {
+                const respostaBe = await fetch('/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -89,6 +89,12 @@
 
                 emailEntrada.value = '';
                 senhaEntrada.value = '';
+
+                // guarda o nome para o chat e leva o usuário até lá
+                sessionStorage.setItem('usuarioLogado', dados.usuario);
+                setTimeout(() => {
+                    window.location.href = 'chat.html';
+                }, 1500);
 
             } catch (erro) {
                 console.error('Erro na requisição:', erro);
