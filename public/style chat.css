@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Roboto:wght@400;500;700&family=Caveat:wght@400;500;600;700&display=swap');
 
-:root{
+:root {
     --fundo: #020702;
     --fundo2: #061006;
     --card: #0b180b;
@@ -13,13 +13,13 @@
     --preto: #000500;
 }
 
-*{
+* {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
-body{
-    margin: 0;
-    padding: 0;
+body {
     min-height: 100vh;
     background:
         radial-gradient(circle at 50% 30%, rgba(0,255,65,0.12), transparent 35%),
@@ -27,9 +27,10 @@ body{
         linear-gradient(135deg, #000400, #061006 50%, #010501);
     color: var(--branco);
     font-family: 'Roboto', sans-serif;
+    overflow-x: hidden;
 }
 
-body::before{
+body::before {
     content: "";
     position: fixed;
     inset: 0;
@@ -41,7 +42,7 @@ body::before{
     z-index: -1;
 }
 
-.menu{
+.menu {
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -58,7 +59,7 @@ body::before{
         0 4px 25px rgba(0,0,0,0.8);
 }
 
-.link{
+.link {
     position: relative;
     margin: 0 18px;
     color: var(--verde);
@@ -70,7 +71,7 @@ body::before{
     transition: 0.25s ease;
 }
 
-.link::after{
+.link::after {
     content: "";
     position: absolute;
     left: 0;
@@ -82,7 +83,7 @@ body::before{
     transition: 0.25s ease;
 }
 
-.link:hover{
+.link:hover {
     color: var(--verde3);
     transform: translateY(-2px);
     text-shadow:
@@ -90,14 +91,15 @@ body::before{
         0 0 15px var(--verde);
 }
 
-.link:hover::after{
+.link:hover::after {
     width: 100%;
 }
 
-.chatContainer{
+.chatContainer {
     position: relative;
     width: min(700px, 92%);
     height: 75vh;
+    min-height: 400px;
     margin: 45px auto;
     display: flex;
     flex-direction: column;
@@ -111,7 +113,7 @@ body::before{
         inset 0 0 35px rgba(0,255,65,0.08);
 }
 
-.chatContainer::before{
+.chatContainer::before {
     content: "OMNITRIX SYSTEM // ONLINE";
     display: block;
     padding: 9px;
@@ -126,56 +128,45 @@ body::before{
     text-shadow: 0 0 8px var(--verde);
 }
 
-#boasVindas{
+#boasVindas {
     margin: 0;
     padding: 20px;
     text-align: center;
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(0,255,65,0.12),
-            transparent
-        );
+    background: linear-gradient(90deg, transparent, rgba(0,255,65,0.12), transparent);
     color: var(--verde3);
     font-family: 'Bangers', cursive;
     font-size: 2.5rem;
     letter-spacing: 3px;
-    text-shadow:
-        0 0 5px var(--verde),
-        0 0 15px var(--verde);
+    text-shadow: 0 0 5px var(--verde), 0 0 15px var(--verde);
     border-bottom: 1px solid rgba(0,255,65,0.4);
 }
 
-#caixaChat{
+#caixaChat {
     flex: 1;
+    min-height: 0;
     padding: 25px;
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(0,255,65,0.05),
-            transparent 65%
-        );
+    background: radial-gradient(circle at center, rgba(0,255,65,0.05), transparent 65%);
     overflow-y: auto;
+    overflow-wrap: anywhere;
     scrollbar-width: thin;
     scrollbar-color: var(--verde) var(--fundo);
 }
 
-#caixaChat::-webkit-scrollbar{
+#caixaChat::-webkit-scrollbar {
     width: 8px;
 }
 
-#caixaChat::-webkit-scrollbar-track{
+#caixaChat::-webkit-scrollbar-track {
     background: #010501;
 }
 
-#caixaChat::-webkit-scrollbar-thumb{
+#caixaChat::-webkit-scrollbar-thumb {
     background: var(--verde);
     border-radius: 10px;
     box-shadow: 0 0 10px var(--verde);
 }
 
-.msg{
+.msg {
     width: fit-content;
     max-width: 80%;
     margin: 15px 0;
@@ -183,44 +174,38 @@ body::before{
     border: 1px solid var(--verde);
     border-left: 5px solid var(--verde3);
     border-radius: 4px 14px 14px 4px;
-    background:
-        linear-gradient(
-            135deg,
-            rgba(0,255,65,0.12),
-            rgba(0,20,5,0.9)
-        );
+    background: linear-gradient(135deg, rgba(0,255,65,0.12), rgba(0,20,5,0.9));
     color: var(--branco);
     font-family: 'Caveat', cursive;
     font-size: 1.5rem;
     line-height: 1.4;
-    box-shadow:
-        0 0 12px rgba(0,255,65,0.15);
+    overflow-wrap: anywhere;
+    box-shadow: 0 0 12px rgba(0,255,65,0.15);
     animation: aparecer 0.25s ease;
 }
 
-@keyframes aparecer{
-    from{
+@keyframes aparecer {
+    from {
         opacity: 0;
         transform: translateY(10px);
     }
 
-    to{
+    to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-#inputArea{
+#inputArea {
     display: flex;
     padding: 18px;
     gap: 12px;
     background: #010701;
     border-top: 2px solid var(--verde);
-    box-shadow:
-        0 -5px 20px rgba(0,255,65,0.08);
+    box-shadow: 0 -5px 20px rgba(0,255,65,0.08);
 }
 
-#mensagem{
+#mensagem {
     flex: 1;
     min-width: 0;
     padding: 14px 16px;
@@ -234,77 +219,61 @@ body::before{
     transition: 0.25s;
 }
 
-#mensagem::placeholder{
+#mensagem::placeholder {
     color: #66806b;
 }
 
-#mensagem:focus{
+#mensagem:focus {
     border-color: var(--verde);
-    box-shadow:
-        0 0 8px rgba(0,255,65,0.5),
-        inset 0 0 8px rgba(0,255,65,0.08);
+    box-shadow: 0 0 8px rgba(0,255,65,0.5), inset 0 0 8px rgba(0,255,65,0.08);
 }
 
-#btnEnviar{
+#btnEnviar {
     min-width: 130px;
     padding: 12px 20px;
     border: 2px solid var(--verde);
     border-radius: 8px;
-    background:
-        linear-gradient(
-            135deg,
-            #0c5c18,
-            #001d06
-        );
+    background: linear-gradient(135deg, #0c5c18, #001d06);
     color: var(--verde3);
     font-family: 'Bangers', cursive;
     font-size: 1.4rem;
     letter-spacing: 2px;
     cursor: pointer;
     text-shadow: 0 0 8px var(--verde);
-    box-shadow:
-        0 0 8px rgba(0,255,65,0.35);
+    box-shadow: 0 0 8px rgba(0,255,65,0.35);
     transition: 0.2s ease;
 }
 
-#btnEnviar:hover{
-    background:
-        linear-gradient(
-            135deg,
-            #18a52c,
-            #063b0d
-        );
+#btnEnviar:hover {
+    background: linear-gradient(135deg, #18a52c, #063b0d);
     color: white;
     transform: scale(1.04);
-    box-shadow:
-        0 0 10px var(--verde),
-        0 0 25px rgba(0,255,65,0.5);
+    box-shadow: 0 0 10px var(--verde), 0 0 25px rgba(0,255,65,0.5);
 }
 
-#btnEnviar:active{
+#btnEnviar:active {
     transform: scale(0.96);
-    box-shadow:
-        0 0 30px var(--verde);
+    box-shadow: 0 0 30px var(--verde);
 }
 
-#btnEnviar:disabled{
+#btnEnviar:disabled {
     opacity: 0.5;
     cursor: not-allowed;
     transform: none;
 }
 
-.vitrine{
+.vitrine {
     display: grid;
-    grid-template-columns:
-        repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 30px;
     width: min(1200px, 90%);
     padding: 50px 20px;
     margin: 0 auto;
 }
 
-.container-chat{
+.container-chat {
     max-width: 700px;
+    width: 92%;
     margin: 40px auto;
     height: 75vh;
     display: flex;
@@ -313,19 +282,18 @@ body::before{
     border: 3px solid var(--verde);
     border-radius: 20px;
     overflow: hidden;
-    box-shadow:
-        0 0 15px var(--verde),
-        0 0 40px rgba(0,255,65,0.25);
+    box-shadow: 0 0 15px var(--verde), 0 0 40px rgba(0,255,65,0.25);
 }
 
-.janela-msg{
+.janela-msg {
     flex: 1;
+    min-height: 0;
     padding: 20px;
     background: var(--fundo);
     overflow-y: auto;
 }
 
-.mensagem{
+.mensagem {
     max-width: 75%;
     margin: 15px;
     padding: 12px 16px;
@@ -336,17 +304,17 @@ body::before{
     font-family: 'Caveat', cursive;
     color: var(--branco);
     background: #031003;
+    overflow-wrap: anywhere;
 }
 
-.mensagem.usuario{
+.mensagem.usuario {
     background: #001a04;
     color: white;
     align-self: flex-end;
-    box-shadow:
-        0 0 12px rgba(0,255,65,0.4);
+    box-shadow: 0 0 12px rgba(0,255,65,0.4);
 }
 
-.formulario-envio{
+.formulario-envio {
     display: flex;
     padding: 15px;
     background: var(--fundo);
@@ -354,7 +322,7 @@ body::before{
     border-top: 2px solid var(--verde);
 }
 
-footer{
+footer {
     text-align: center;
     padding: 25px;
     font-size: 1rem;
@@ -362,44 +330,144 @@ footer{
     border-top: 1px solid rgba(0,255,65,0.2);
 }
 
-@media(max-width: 600px){
-
-    .menu{
-        padding: 12px 5px;
+@media (max-width: 768px) {
+    .menu {
+        padding: 12px 8px;
+        gap: 8px;
     }
 
-    .link{
-        margin: 5px 8px;
-        font-size: 1.4rem;
+    .link {
+        margin: 4px 8px;
+        font-size: 1.6rem;
     }
 
-    .chatContainer{
+    .chatContainer,
+    .container-chat {
         width: 94%;
-        height: 78vh;
+        height: 75vh;
+        min-height: 380px;
         margin: 25px auto;
-        border-radius: 14px;
+        border-radius: 15px;
     }
 
-    #boasVindas{
-        font-size: 1.8rem;
-        padding: 15px;
+    #boasVindas {
+        font-size: 2rem;
+        padding: 16px 10px;
+        letter-spacing: 2px;
     }
 
-    #caixaChat{
-        padding: 15px;
+    #caixaChat {
+        padding: 16px;
     }
 
-    .msg{
-        max-width: 88%;
+    .msg {
+        max-width: 90%;
+        font-size: 1.35rem;
+        padding: 12px 14px;
+    }
+
+    #inputArea {
+        padding: 12px;
+        gap: 8px;
+    }
+
+    #mensagem {
+        padding: 12px;
+        font-size: 0.95rem;
+    }
+
+    #btnEnviar {
+        min-width: 95px;
+        padding: 10px;
+        font-size: 1.2rem;
+    }
+
+    footer {
+        padding: 18px 12px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .menu {
+        padding: 10px 5px;
+    }
+
+    .link {
+        margin: 3px 5px;
         font-size: 1.3rem;
+        letter-spacing: 1px;
     }
 
-    #inputArea{
+    .chatContainer,
+    .container-chat {
+        width: 96%;
+        height: 72vh;
+        min-height: 350px;
+        margin: 18px auto;
+        border-width: 2px;
+        border-radius: 12px;
+    }
+
+    .chatContainer::before {
+        font-size: 0.65rem;
+        letter-spacing: 2px;
+        padding: 8px 4px;
+    }
+
+    #boasVindas {
+        font-size: 1.6rem;
+        padding: 13px 8px;
+        letter-spacing: 1px;
+    }
+
+    #caixaChat {
         padding: 12px;
     }
 
-    #btnEnviar{
-        min-width: 90px;
-        font-size: 1.1rem;
+    .msg {
+        max-width: 95%;
+        margin: 10px 0;
+        padding: 10px 12px;
+        font-size: 1.2rem;
+    }
+
+    #inputArea {
+        padding: 9px;
+        gap: 7px;
+    }
+
+    #mensagem {
+        padding: 11px 9px;
+        font-size: 0.85rem;
+    }
+
+    #btnEnviar {
+        min-width: 75px;
+        padding: 9px 7px;
+        font-size: 1.05rem;
+        letter-spacing: 1px;
+    }
+
+    .janela-msg {
+        padding: 12px;
+    }
+
+    .mensagem {
+        max-width: 90%;
+        margin: 10px 5px;
+        padding: 10px 12px;
+        font-size: 1.2rem;
+    }
+
+    .formulario-envio {
+        padding: 10px;
+        gap: 7px;
+    }
+}
+
+@media (hover: none) {
+    #btnEnviar:hover {
+        transform: none;
     }
 }
