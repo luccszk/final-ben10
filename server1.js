@@ -78,9 +78,10 @@ app.post('/login', (req, res) => {
         })
     }
 
+    // devolve o NOME cadastrado (antes devolvia o e-mail)
     return res.json({
         mensagem: "Login realizado com Sucesso!!",
-        usuario: emailExiste.email
+        usuario: emailExiste.usuario
     })
 })
 
@@ -96,11 +97,16 @@ app.post('/chat', async (req, res) => {
 
         const historico = req.body.historico || []
 
+        const nomeUsuario = typeof req.body.usuario === 'string'
+            ? req.body.usuario.slice(0, 40)
+            : ''
+
         const persona = {
             role: "system",
             content: `Você é o Omnitrix do universo de Ben 10.
 
 Você conversa com o usuário sobre Ben 10, o Omnitrix, aliens, transformações, poderes e personagens.
+${nomeUsuario ? `O usuário se chama ${nomeUsuario}.` : ''}
 Você é o Omnitrix, do Ben 10. Responda sempre em no máximo 2 frases curtas, de forma direta, sem listas e sem enrolação.
 Responda de forma curta, objetiva, engraçada e descontraída.
 Responda em português do Brasil.
