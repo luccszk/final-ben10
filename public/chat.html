@@ -30,6 +30,7 @@
 
     </div>
     <footer> © Desenvolvido por Lucca Scholz </footer>
+
     <script>
         const usuarioLogado = 'Lucca';
 
@@ -44,18 +45,13 @@
 
         function mensagemTela(autor, texto) {
             const textoFinal = document.createElement('p');
-
             textoFinal.className = 'msg';
-
             textoFinal.textContent = `${autor}: ${texto}`;
-
             caixaChat.appendChild(textoFinal);
-
             caixaChat.scrollTop = caixaChat.scrollHeight;
         }
 
-        btnEnviar.addEventListener('click', async () => {
-
+        async function enviarMensagem() {
             const textoMensagem = inputMensagem.value.trim();
 
             if (!textoMensagem) return;
@@ -68,18 +64,14 @@
             });
 
             inputMensagem.value = '';
-
             btnEnviar.disabled = true;
 
             try {
-
                 const respostaServidor = await fetch('/chat', {
                     method: 'POST',
-
                     headers: {
                         'Content-Type': 'application/json'
                     },
-
                     body: JSON.stringify({
                         historico: historicoConversa
                     })
@@ -88,25 +80,35 @@
                 const dados = await respostaServidor.json();
 
                 if (!respostaServidor.ok) {
-
                     mensagemTela('Omnitrix', dados.erro);
-
+                    // remove a mensagem que ficou sem resposta
+                    historicoConversa.pop();
                     return;
                 }
 
                 mensagemTela('Omnitrix', dados.resposta);
 
-            } catch (erro) {
+                // guarda a resposta do bot no histórico
+                historicoConversa.push({
+                    role: "assistant",
+                    content: dados.resposta
+                });
 
-                mensagemTela(
-                    'Sistema',
-                    'Não foi possível conectar com o Omnitrix.'
-                );
+            } catch (erro) {
+                mensagemTela('Sistema', 'Não foi possível conectar com o Omnitrix.');
+                // remove a mensagem que ficou sem resposta
+                historicoConversa.pop();
 
             } finally {
-
                 btnEnviar.disabled = false;
+                inputMensagem.focus();
             }
+        }
+
+        btnEnviar.addEventListener('click', enviarMensagem);
+
+        inputMensagem.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') enviarMensagem();
         });
     </script>
 
