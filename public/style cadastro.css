@@ -23,6 +23,7 @@ body {
     font-family: "Roboto", sans-serif;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 .menu {
@@ -37,6 +38,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .logo {
@@ -176,6 +178,7 @@ main {
 
 .container input {
     width: 100%;
+    min-width: 0;
     padding: 15px 16px;
     background: rgba(0, 0, 0, 0.5);
     color: var(--branco);
@@ -226,6 +229,7 @@ main {
     text-align: center;
     font-size: 0.9rem;
     font-weight: 700;
+    overflow-wrap: anywhere;
 }
 
 .alerta {
@@ -240,28 +244,117 @@ footer {
     border-top: 1px solid rgba(0, 255, 65, 0.15);
 }
 
-@media (max-width: 750px) {
+@media (max-width: 768px) {
     .menu {
         flex-direction: column;
+        justify-content: center;
         gap: 10px;
-        padding: 15px;
+        padding: 15px 10px;
+    }
+
+    .logo {
+        font-size: 2rem;
     }
 
     .links {
         flex-wrap: wrap;
         justify-content: center;
+        gap: 4px;
     }
 
     .link {
-        font-size: 0.8rem;
-        padding: 6px 8px;
+        font-size: 0.85rem;
+        padding: 8px 10px;
+    }
+
+    main {
+        padding: 35px 16px 45px;
+    }
+
+    .titulo-area {
+        margin-bottom: 25px;
     }
 
     .titulo-area h1 {
-        font-size: 3rem;
+        font-size: 3.2rem;
+        letter-spacing: 3px;
     }
 
     .container {
-        padding: 30px 22px;
+        max-width: 500px;
+        padding: 30px 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .menu {
+        padding: 12px 6px;
+    }
+
+    .logo {
+        font-size: 1.8rem;
+    }
+
+    .link {
+        font-size: 0.78rem;
+        padding: 7px 8px;
+    }
+
+    main {
+        padding: 25px 12px 35px;
+    }
+
+    .titulo-area h1 {
+        font-size: 2.6rem;
+        letter-spacing: 2px;
+    }
+
+    .titulo-area p {
+        font-size: 0.85rem;
+        line-height: 1.5;
+    }
+
+    .status {
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+    }
+
+    .container {
+        padding: 25px 18px;
+        border-radius: 14px;
+    }
+
+    .container::before {
+        font-size: 0.55rem;
+        letter-spacing: 1px;
+    }
+
+    .omnitrix-icon {
+        width: 65px;
+        height: 65px;
+    }
+
+    .omnitrix-inner {
+        width: 30px;
+        height: 30px;
+    }
+
+    .container h2 {
+        font-size: 1.8rem;
+    }
+
+    .container input {
+        padding: 13px 12px;
+        font-size: 0.9rem;
+    }
+
+    #btnCadastro {
+        padding: 13px;
+        font-size: 1.4rem;
+    }
+
+    footer {
+        padding: 16px 10px;
+        font-size: 0.75rem;
     }
 }
