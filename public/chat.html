@@ -1,116 +1,116 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Omnitrix Chat</title>
-    <link rel="stylesheet" href="style chat.css">
+    <title>Login</title>
+    <link rel="stylesheet" href="style login.css">
 </head>
 
 <body>
 
     <nav class="menu">
-        <a class="link" href="index.html">Início</a>
-        <a class="link" href="galeria.html">Aliens</a>
-        <a class="link" href="chat.html">Omnitrix</a>
-        <a class="link" href="login.html">Login</a>
-        <a class="link" href="cadastro.html">Cadastro</a>
+        <a href="index.html" class="link">Home</a>
+        <a href="galeria.html" class="link">Galeria</a>
+        <a href="chat.html" class="link">Chat</a>
+        <a href="cadastro.html" class="link">Cadastro</a>
+        <a href="login.html" class="link">Login</a>
     </nav>
 
-    <div class="chatContainer">
+    <main>
 
-        <h2 id="boasVindas">Bem-vindo ao Omnitrix</h2>
+        <div class="container">
 
-        <div id="caixaChat"></div>
+            <div class="omnitrix-icon">
+                <div class="omnitrix-inner"></div>
+            </div>
 
-        <div id="inputArea">
-            <input type="text" id="mensagem" placeholder="Fale com o Omnitrix...">
-            <button id="btnEnviar">Ativar</button>
+            <h2>Login</h2>
+            <div class="linha"></div>
+
+            <div class="campo-grupo">
+                <label for="loginEmail">E-MAIL</label>
+                <input type="email" id="loginEmail" placeholder="Digite seu e-mail">
+            </div>
+
+            <div class="campo-grupo">
+                <label for="loginSenha">SENHA</label>
+                <input type="password" id="loginSenha" placeholder="Digite sua senha">
+            </div>
+
+            <button id="btnLogin">Enviar</button>
+            <div id="loginMensagem" class="mensagem"></div>
+
         </div>
 
-    </div>
+    </main>
+
     <footer> © Desenvolvido por Lucca Scholz </footer>
 
     <script>
-        const usuarioLogado = 'Lucca';
+        const btnLogin = document.querySelector('#btnLogin');
+        const loginMensagem = document.querySelector('#loginMensagem');
 
-        document.querySelector('#boasVindas').textContent =
-            `Olá ${usuarioLogado}, o Omnitrix está pronto!`;
+        btnLogin.addEventListener('click', async () => {
+            const emailEntrada = document.querySelector('#loginEmail');
+            const senhaEntrada = document.querySelector('#loginSenha');
 
-        const caixaChat = document.querySelector('#caixaChat');
-        const inputMensagem = document.querySelector('#mensagem');
-        const btnEnviar = document.querySelector('#btnEnviar');
+            const emailDigitado = emailEntrada.value.trim();
+            const senhaDigitada = senhaEntrada.value;
 
-        const historicoConversa = [];
-
-        function mensagemTela(autor, texto) {
-            const textoFinal = document.createElement('p');
-            textoFinal.className = 'msg';
-            textoFinal.textContent = `${autor}: ${texto}`;
-            caixaChat.appendChild(textoFinal);
-            caixaChat.scrollTop = caixaChat.scrollHeight;
-        }
-
-        async function enviarMensagem() {
-            const textoMensagem = inputMensagem.value.trim();
-
-            if (!textoMensagem) return;
-
-            mensagemTela(usuarioLogado, textoMensagem);
-
-            historicoConversa.push({
-                role: "user",
-                content: textoMensagem
-            });
-
-            inputMensagem.value = '';
-            btnEnviar.disabled = true;
+            if (!emailDigitado || !senhaDigitada) {
+                loginMensagem.innerText = 'Preencha todos os campos antes de enviar!';
+                loginMensagem.style.color = 'red';
+                return;
+            }
 
             try {
-                const respostaServidor = await fetch('/chat', {
+                const respostaBe = await fetch('/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        historico: historicoConversa
+                        email: emailDigitado,
+                        senha: senhaDigitada
                     })
                 });
 
-                const dados = await respostaServidor.json();
+                const dados = await respostaBe.json();
 
-                if (!respostaServidor.ok) {
-                    mensagemTela('Omnitrix', dados.erro);
-                    // remove a mensagem que ficou sem resposta
-                    historicoConversa.pop();
+                if (!respostaBe.ok) {
+                    loginMensagem.innerText = dados.erro;
+                    loginMensagem.style.color = 'red';
                     return;
                 }
 
-                mensagemTela('Omnitrix', dados.resposta);
+                if (!dados.usuario) {
+                    loginMensagem.innerText = 'O servidor não retornou o nome do usuário.';
+                    loginMensagem.style.color = 'red';
+                    return;
+                }
 
-                // guarda a resposta do bot no histórico
-                historicoConversa.push({
-                    role: "assistant",
-                    content: dados.resposta
-                });
+                sessionStorage.setItem('usuarioLogado', dados.usuario);
+
+                loginMensagem.innerText = `${dados.mensagem}: ${dados.usuario} entrando no chat...`;
+                loginMensagem.style.color = 'green';
+
+                emailEntrada.value = '';
+                senhaEntrada.value = '';
+
+                setTimeout(() => {
+                    window.location.href = 'chat.html';
+                }, 1500);
 
             } catch (erro) {
-                mensagemTela('Sistema', 'Não foi possível conectar com o Omnitrix.');
-                // remove a mensagem que ficou sem resposta
-                historicoConversa.pop();
-
-            } finally {
-                btnEnviar.disabled = false;
-                inputMensagem.focus();
+                console.error('Erro na requisição:', erro);
+                loginMensagem.innerText = 'Erro ao conectar com o servidor!';
+                loginMensagem.style.color = 'red';
             }
-        }
-
-        btnEnviar.addEventListener('click', enviarMensagem);
-
-        inputMensagem.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') enviarMensagem();
         });
     </script>
 
 </body>
+
 </html>

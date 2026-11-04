@@ -60,6 +60,8 @@
             const emailDigitado = emailEntrada.value;
             const senhaDigitada = senhaEntrada.value
 
+            sessionStorage.removeItem('usuarioLogado');
+
             if (!emailDigitado || !senhaDigitada) {
                 loginMensagem.innerText = 'Preencha todos os campos antes de enviar!';
                 loginMensagem.style.color = 'red';
