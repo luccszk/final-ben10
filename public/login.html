@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -19,7 +20,6 @@
     </nav>
 
     <main>
-
         <div class="container">
 
             <div class="omnitrix-icon">
@@ -43,70 +43,70 @@
             <div id="loginMensagem" class="mensagem"></div>
 
         </div>
-
     </main>
 
-    <footer> © Desenvolvido por Lucca Scholz </footer>
+    <footer>© Desenvolvido por Lucca Scholz</footer>
 
     <script>
-
         const btnLogin = document.querySelector('#btnLogin')
-        const btnMensagem = document.querySelector('#loginMensagem')
+        const loginMensagem = document.querySelector('#loginMensagem')
 
         btnLogin.addEventListener('click', async () => {
-            const emailEntrada = document.querySelector('#loginEmail');
-            const senhaEntrada = document.querySelector('#loginSenha');
+            const emailEntrada = document.querySelector('#loginEmail')
+            const senhaEntrada = document.querySelector('#loginSenha')
 
-            const emailDigitado = emailEntrada.value;
+            const emailDigitado = emailEntrada.value.trim()
             const senhaDigitada = senhaEntrada.value
 
-            sessionStorage.removeItem('usuarioLogado');
+            sessionStorage.removeItem('usuarioLogado')
 
             if (!emailDigitado || !senhaDigitada) {
-                loginMensagem.innerText = 'Preencha todos os campos antes de enviar!';
-                loginMensagem.style.color = 'red';
-                return;
+                loginMensagem.innerText = 'Preencha todos os campos antes de enviar!'
+                loginMensagem.style.color = 'red'
+                return
             }
+
+            btnLogin.disabled = true
 
             try {
                 const respostaBe = await fetch('/login', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify({
                         email: emailDigitado,
                         senha: senhaDigitada
                     })
-                });
+                })
 
-                const dados = await respostaBe.json();
+                const dados = await respostaBe.json()
 
                 if (!respostaBe.ok) {
-                    loginMensagem.innerText = `${dados.erro}`;
-                    loginMensagem.style.color = 'red';
-                    return;
+                    loginMensagem.innerText = dados.erro || 'Erro ao realizar login'
+                    loginMensagem.style.color = 'red'
+                    btnLogin.disabled = false
+                    return
                 }
 
-                loginMensagem.innerText = `${dados.mensagem}: ${dados.usuario} entrando no chat...`;
-                loginMensagem.style.color = 'green';
+                sessionStorage.setItem('usuarioLogado', dados.usuario)
 
-                emailEntrada.value = '';
-                senhaEntrada.value = '';
+                loginMensagem.innerText = `Login realizado com sucesso! ${dados.usuario}, entrando no chat...`
+                loginMensagem.style.color = 'green'
 
-                // guarda o nome para o chat e leva o usuário até lá
-                sessionStorage.setItem('usuarioLogado', dados.usuario);
-                setTimeout(() => {
-                    window.location.href = 'chat.html';
-                }, 1500);
+                emailEntrada.value = ''
+                senhaEntrada.value = ''
+
+                window.location.href = 'chat.html'
 
             } catch (erro) {
-                console.error('Erro na requisição:', erro);
-                loginMensagem.innerText = 'Erro ao conectar com o servidor!!';
-                loginMensagem.style.color = 'red';
+                console.error('Erro na requisição:', erro)
+                loginMensagem.innerText = 'Erro ao conectar com o servidor!'
+                loginMensagem.style.color = 'red'
+                btnLogin.disabled = false
             }
         })
-
-
     </script>
-</body>
 
+</body>
 </html>
