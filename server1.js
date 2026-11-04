@@ -4,8 +4,10 @@ import cors from 'cors'
 import 'dotenv/config'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import Database from 'better-sqlite3'
+import pg from 'pg'
 import bcrypt from 'bcryptjs'
+
+const { Pool } = pg
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const app = express()
@@ -14,15 +16,20 @@ const PORT = process.env.PORT || 3000
 const MODELO = process.env.GROQ_MODEL || 'openai/gpt-oss-120b'
 const URL_API = 'https://api.groq.com/openai/v1/chat/completions'
 
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
+})
+
 app.use(express.json())
 app.use(cors())
 app.use(express.static(path.join(__dirname, 'public')))
 
-const db = new Database(path.join(__dirname, 'usuarios.db'))
-
-db.exec(`
+const bancoPronto = pool.query(`
     CREATE TABLE IF NOT EXISTS usuarios (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY,
         usuario TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE,
         senha TEXT NOT NULL
@@ -31,6 +38,8 @@ db.exec(`
 
 app.post('/cadastro', async (req, res) => {
     try {
+        await bancoPronto
+
         const { usuario, email, senha } = req.body
 
         if (
@@ -55,22 +64,12 @@ app.post('/cadastro', async (req, res) => {
         const nomeNormalizado = usuario.trim()
         const emailNormalizado = email.trim().toLowerCase()
 
-        const emailUsado = db.prepare(
-            'SELECT id FROM usuarios WHERE email = ?'
-        ).get(emailNormalizado)
-
-        if (emailUsado) {
-            return res.status(409).json({
-                erro: 'Email já está em uso'
-            })
-        }
-
         const senhaHash = await bcrypt.hash(senha, 10)
 
-        db.prepare(`
+        await pool.query(`
             INSERT INTO usuarios (usuario, email, senha)
-            VALUES (?, ?, ?)
-        `).run(nomeNormalizado, emailNormalizado, senhaHash)
+            VALUES ($1, $2, $3)
+        `, [nomeNormalizado, emailNormalizado, senhaHash])
 
         console.log(`Usuário cadastrado: ${nomeNormalizado}`)
 
@@ -82,7 +81,7 @@ app.post('/cadastro', async (req, res) => {
     } catch (erro) {
         console.log(erro)
 
-        if (erro.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+        if (erro.code === '23505') {
             return res.status(409).json({
                 erro: 'Email já está em uso'
             })
@@ -96,6 +95,8 @@ app.post('/cadastro', async (req, res) => {
 
 app.post('/login', async (req, res) => {
     try {
+        await bancoPronto
+
         const { email, senha } = req.body
 
         if (
@@ -111,9 +112,12 @@ app.post('/login', async (req, res) => {
 
         const emailNormalizado = email.trim().toLowerCase()
 
-        const usuarioEncontrado = db.prepare(
-            'SELECT * FROM usuarios WHERE email = ?'
-        ).get(emailNormalizado)
+        const resultado = await pool.query(
+            'SELECT * FROM usuarios WHERE email = $1',
+            [emailNormalizado]
+        )
+
+        const usuarioEncontrado = resultado.rows[0]
 
         if (!usuarioEncontrado) {
             return res.status(400).json({
@@ -154,7 +158,7 @@ app.post('/chat', async (req, res) => {
 
         if (!API_KEY) {
             return res.status(500).json({
-                erro: 'Chave da Groq não encontrada. Coloque GROQ_API_KEY=... no arquivo .env e reinicie o servidor.'
+                erro: 'Chave da Groq não encontrada.'
             })
         }
 
@@ -222,6 +226,10 @@ Responda diretamente ao que o usuário perguntou.`
     }
 })
 
-app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`)
-})
+if (!process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`Servidor rodando na porta ${PORT}`)
+    })
+}
+
+export default app
