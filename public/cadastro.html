@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -66,7 +65,7 @@
     </main>
 
     <footer> © Desenvolvido por Lucca Scholz </footer>
-    
+
     <script>
         const btnCadastro = document.querySelector('#btnCadastro');
         const cadMensagem = document.querySelector('#cadMensagem');
@@ -119,12 +118,17 @@
                     return;
                 }
 
-                cadMensagem.innerText = `${dados.mensagem}: ${dados.perfil}`;
+                cadMensagem.innerText = `${dados.mensagem}: ${dados.perfil}. Indo para o login...`;
                 cadMensagem.style.color = '#7CFF7C';
 
                 usuarioEntrada.value = '';
                 emailEntrada.value = '';
                 senhaEntrada.value = '';
+
+                // depois de cadastrar, leva o usuário para o login
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1500);
 
             } catch (erro) {
                 console.error('Erro na requisição:', erro);
@@ -137,4 +141,3 @@
 </body>
 
 </html>
-```
