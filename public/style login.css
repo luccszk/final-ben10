@@ -19,6 +19,7 @@ body {
     background: linear-gradient(135deg, #020402, #081408, #020502);
     color: var(--branco);
     font-family: "Roboto", sans-serif;
+    overflow-x: hidden;
 }
 
 .menu {
@@ -44,6 +45,7 @@ body {
 .links {
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     gap: 10px;
 }
@@ -92,6 +94,7 @@ main {
 .titulo-area p {
     margin-top: 5px;
     color: var(--cinza);
+    line-height: 1.5;
 }
 
 .container {
@@ -167,6 +170,7 @@ main {
 
 .container input {
     width: 100%;
+    min-width: 0;
     padding: 14px;
     background: #020602;
     color: var(--branco);
@@ -215,6 +219,7 @@ main {
     text-align: center;
     font-size: 0.9rem;
     font-weight: bold;
+    overflow-wrap: anywhere;
 }
 
 footer {
@@ -225,17 +230,116 @@ footer {
     border-top: 1px solid rgba(0, 255, 65, 0.15);
 }
 
-@media (max-width: 700px) {
-    .container {
-        width: 95%;
-        padding: 25px 20px;
+@media (max-width: 768px) {
+    .menu {
+        padding: 15px 10px;
+    }
+
+    .logo {
+        font-size: 2rem;
+    }
+
+    .links {
+        gap: 5px;
+    }
+
+    .link {
+        font-size: 0.85rem;
+        padding: 8px 10px;
+    }
+
+    main {
+        padding: 35px 16px;
     }
 
     .titulo-area h1 {
-        font-size: 3rem;
+        font-size: 3.2rem;
+        letter-spacing: 3px;
     }
 
+    .container {
+        width: 95%;
+        padding: 28px 24px;
+    }
+}
+
+@media (max-width: 480px) {
     .menu {
-        padding: 15px;
+        padding: 12px 6px;
+    }
+
+    .logo {
+        font-size: 1.8rem;
+    }
+
+    .links {
+        gap: 3px;
+    }
+
+    .link {
+        font-size: 0.78rem;
+        padding: 7px 8px;
+    }
+
+    main {
+        padding: 25px 12px;
+    }
+
+    .titulo-area {
+        margin-bottom: 22px;
+    }
+
+    .titulo-area h1 {
+        font-size: 2.6rem;
+        letter-spacing: 2px;
+    }
+
+    .titulo-area p {
+        font-size: 0.85rem;
+    }
+
+    .status {
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+    }
+
+    .container {
+        width: 100%;
+        padding: 24px 18px;
+        border-radius: 12px;
+    }
+
+    .container::before {
+        font-size: 0.58rem;
+        letter-spacing: 1px;
+    }
+
+    .omnitrix-icon {
+        width: 65px;
+        height: 65px;
+    }
+
+    .omnitrix-inner {
+        width: 30px;
+        height: 30px;
+    }
+
+    .container h2 {
+        font-size: 1.8rem;
+    }
+
+    .container input {
+        padding: 13px 11px;
+        font-size: 0.9rem;
+    }
+
+    #btnLogin {
+        padding: 13px;
+        font-size: 1.4rem;
+    }
+
+    footer {
+        padding: 16px 10px;
+        font-size: 0.75rem;
     }
 }
