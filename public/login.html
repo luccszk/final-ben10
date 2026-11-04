@@ -18,17 +18,36 @@
         <a href="login.html" class="link">Login</a>
     </nav>
 
-    <h2>Login</h2>
+    <main>
 
-    <label for="loginEmail">E-mail</label><br>
-    <input type="email" id="loginEmail" placeholder="Digite seu e-mail"><br><br>
+        <div class="container">
 
-    <label for="loginSenha">Senha</label><br>
-    <input type="password" id="loginSenha" placeholder="Digite sua senha"><br><br>
+            <div class="omnitrix-icon">
+                <div class="omnitrix-inner"></div>
+            </div>
 
-    <button id="btnLogin" class="card">Enviar</button>
-    <div id="loginMensagem" class="mensagem"></div>
+            <h2>Login</h2>
+            <div class="linha"></div>
+
+            <div class="campo-grupo">
+                <label for="loginEmail">E-MAIL</label>
+                <input type="email" id="loginEmail" placeholder="Digite seu e-mail">
+            </div>
+
+            <div class="campo-grupo">
+                <label for="loginSenha">SENHA</label>
+                <input type="password" id="loginSenha" placeholder="Digite sua senha">
+            </div>
+
+            <button id="btnLogin">Enviar</button>
+            <div id="loginMensagem" class="mensagem"></div>
+
+        </div>
+
+    </main>
+
     <footer> © Desenvolvido por Lucca Scholz </footer>
+
     <script>
 
         const btnLogin = document.querySelector('#btnLogin')
